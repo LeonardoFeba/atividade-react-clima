@@ -42,14 +42,18 @@ function App() {
   };
   return (
     <div className="App">
-      <input type="text" onChange={inputCidade}></input>
+      <input
+        placeholder="Digite a cidade.."
+        type="text"
+        onChange={inputCidade}
+      ></input>
       <button onClick={callApi}>Buscar</button>
       {/* <p>{temperatura}</p> */}
       <p>{city}</p>
       <p>{stateTemperatura}</p>
       <p>{descricao}</p>
-      {diasSemana.map((dia) => {
-        return <TempCard diaDaSemana={dia} />;
+      {diasSemana.map((dia, i) => {
+        return <TempCard key={i} diaDaSemana={dia} />;
       })}
     </div>
   );
