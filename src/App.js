@@ -1,60 +1,84 @@
-import "./App.css";
 import { useState } from "react";
-import TempCard from "./components/temp-card";
+import "./App.css";
 
 function App() {
-  // let temperatura = 30;
-  const [stateTemperatura, setStateTemperatura] = useState(30);
-  const [descricao, setDescricao] = useState("");
-  const [city, setCity] = useState("Cidade");
-
   const diasSemana = [
-    "Domingo",
     "Segunda",
     "Terça",
     "Quarta",
     "Quinta",
     "Sexta",
-    "Sábado",
+    "Sabado",
+    "Domingo",
   ];
 
-  const callApi = () => {
-    // API openweather
-    console.log("Vai chamar a API de temperatura");
+  const [entrada, setEntrada] = useState("");
+  const [cidade, setCidade] = useState(""); //FORMA DE UTILIZAR VARIÁVEI PARA RENDEREIZAR A TELA
+  const [tempMax, setTempMax] = useState(0);
+  const [temMin, setTempMin] = useState(0);
+  const [descricaco, setDescricao] = useState("Nublado");
+  const [veloVento, setVeloVento] = useState(0);
+
+  function buscarCidade() {
+    setCidade(entrada); //cidade = entrada
+    // chamar API
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pt_br&units=metric&appid=777fd6c175f16899b669ab9b22be7638`
+      `https://api.openweathermap.org/data/2.5/weather?q=${entrada}&lang=pt_br&units=metric&appid=777fd6c175f16899b669ab9b22be7638`
     )
-      .then((resposta) => {
-        return resposta.json();
+      .then((response) => {
+        return response.json();
       })
-      .then((dadoTemperatura) => {
-        // console.log(temperatura);
-        setDescricao(dadoTemperatura.weather[0].description);
-        setStateTemperatura(dadoTemperatura.main.temp);
+      .then((dado) => {
+        console.log(dado);
+        console.log(dado.main.temp);
+        setTempMax(dado.main.temp_max);
       })
       .catch(() => {
-        alert("Cidade não encontrada");
+        alert("deu erro");
       });
-  };
+  }
 
-  const inputCidade = (evento) => {
-    setCity(evento.target.value); //consigo pegar a tecla digitada
-  };
+  function gerenciaBusca(vasco) {
+    setEntrada(vasco.target.value); //entrada = vasco.traget.value
+  }
+
   return (
     <div className="App">
-      <input
-        placeholder="Digite a cidade.."
-        type="text"
-        onChange={inputCidade}
-      ></input>
-      <button onClick={callApi}>Buscar</button>
-      {/* <p>{temperatura}</p> */}
-      <p>{city}</p>
-      <p>{stateTemperatura}</p>
-      <p>{descricao}</p>
-      {diasSemana.map((dia, i) => {
-        return <TempCard key={i} diaDaSemana={dia} />;
-      })}
+      <h1>Insira a cidade:</h1>
+      <input onChange={gerenciaBusca}></input>
+      <h2>{cidade}</h2>
+      <button onClick={buscarCidade}>Buscar</button>
+      <p>30°C</p>
+      <ul>
+        <li>
+          <p>{diasSemana[0]}</p>
+          <p>{tempMax}</p>
+        </li>
+        <li>
+          <p>{diasSemana[1]}</p>
+          <p>{tempMax}</p>
+        </li>
+        <li>
+          <p>{diasSemana[2]}</p>
+          <p>{tempMax}</p>
+        </li>
+        <li>
+          <p>{diasSemana[3]}</p>
+          <p>{tempMax}</p>
+        </li>
+        <li>
+          <p>{diasSemana[4]}</p>
+          <p>{tempMax}</p>
+        </li>
+        <li>
+          <p>{diasSemana[5]}</p>
+          <p>{tempMax}</p>
+        </li>
+        <li>
+          <p>{diasSemana[6]}</p>
+          <p>{tempMax}</p>
+        </li>
+      </ul>
     </div>
   );
 }
