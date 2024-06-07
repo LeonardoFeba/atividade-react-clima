@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import "./index.css";
+import TempCard from "./components/temp-card";
 
 function App() {
   const diasSemana = [
@@ -14,24 +16,26 @@ function App() {
 
   const [entrada, setEntrada] = useState("");
   const [cidade, setCidade] = useState(""); //FORMA DE UTILIZAR VARIÁVEI PARA RENDEREIZAR A TELA
-  const [tempMax, setTempMax] = useState(0);
-  const [temMin, setTempMin] = useState(0);
-  const [descricaco, setDescricao] = useState("Nublado");
-  const [veloVento, setVeloVento] = useState(0);
+  const [tempMax, setTempMax] = useState();
+  const [currentTemp, setCurrentTemp] = useState();
+  const [tempMin, setTempMin] = useState();
+  const [descricao, setDescricao] = useState("");
 
   function buscarCidade() {
     setCidade(entrada); //cidade = entrada
     // chamar API
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${entrada}&lang=pt_br&units=metric&appid=777fd6c175f16899b669ab9b22be7638`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${entrada}&lang=pt_br&units=metric&appid=777fd6c175f16899b669ab9b22be7638`
     )
       .then((response) => {
         return response.json();
       })
       .then((dado) => {
         console.log(dado);
-        console.log(dado.main.temp);
-        setTempMax(dado.main.temp_max);
+        setCurrentTemp(dado.list[0].main.temp);
+        setTempMax(dado.list[0].main.temp_max);
+        setDescricao(dado.list[0].weather[0].description);
+        setTempMin(dado.list[0].main.temp_min);
       })
       .catch(() => {
         alert("deu erro");
@@ -39,7 +43,7 @@ function App() {
   }
 
   function gerenciaBusca(vasco) {
-    setEntrada(vasco.target.value); //entrada = vasco.traget.value
+    setEntrada(vasco.target.value); //entrada = vasco.target.value
   }
 
   return (
@@ -48,37 +52,13 @@ function App() {
       <input onChange={gerenciaBusca}></input>
       <h2>{cidade}</h2>
       <button onClick={buscarCidade}>Buscar</button>
-      <p>30°C</p>
-      <ul>
-        <li>
-          <p>{diasSemana[0]}</p>
-          <p>{tempMax}</p>
-        </li>
-        <li>
-          <p>{diasSemana[1]}</p>
-          <p>{tempMax}</p>
-        </li>
-        <li>
-          <p>{diasSemana[2]}</p>
-          <p>{tempMax}</p>
-        </li>
-        <li>
-          <p>{diasSemana[3]}</p>
-          <p>{tempMax}</p>
-        </li>
-        <li>
-          <p>{diasSemana[4]}</p>
-          <p>{tempMax}</p>
-        </li>
-        <li>
-          <p>{diasSemana[5]}</p>
-          <p>{tempMax}</p>
-        </li>
-        <li>
-          <p>{diasSemana[6]}</p>
-          <p>{tempMax}</p>
-        </li>
-      </ul>
+      <TempCard
+        city={cidade}
+        description={descricao}
+        tempMax={tempMax}
+        tempMin={tempMin}
+        temp={currentTemp}
+      ></TempCard>
     </div>
   );
 }
