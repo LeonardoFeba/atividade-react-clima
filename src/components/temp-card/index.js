@@ -17,6 +17,7 @@ export default function TempCard(props) {
           viewBox="0 0 100 100"
           xmlSpace="preserve"
         ></svg>
+        <p className="minHeading">Agora</p>
         <p className="temp">{props.temp}</p>
         <div className="minmaxContainer">
           <div className="min">
