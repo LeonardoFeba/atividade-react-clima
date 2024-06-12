@@ -52,13 +52,19 @@ function App() {
       <input onChange={gerenciaBusca}></input>
       <h2>{cidade}</h2>
       <button onClick={buscarCidade}>Buscar</button>
-      <TempCard
-        city={cidade}
-        description={descricao}
-        tempMax={tempMax}
-        tempMin={tempMin}
-        temp={currentTemp}
-      ></TempCard>
+      <div id="cardContainer">
+        {diasSemana.map((dia) => (
+          <TempCard
+            key={dia}
+            city={cidade}
+            description={descricao}
+            tempMax={tempMax}
+            tempMin={tempMin}
+            temp={currentTemp}
+            day={dia}
+          />
+        ))}
+      </div>
     </div>
   );
 }
