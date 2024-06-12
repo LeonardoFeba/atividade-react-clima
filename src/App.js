@@ -38,7 +38,7 @@ function App() {
         setTempMin(dado.list[0].main.temp_min);
       })
       .catch(() => {
-        alert("deu erro");
+        alert("Não foi possível encontrar a cidade");
       });
   }
 
