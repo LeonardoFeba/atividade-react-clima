@@ -5,14 +5,17 @@ import TempCard from "./components/temp-card";
 
 function App() {
   const diasSemana = [
+    "Domingo",
     "Segunda",
     "Terça",
     "Quarta",
     "Quinta",
     "Sexta",
     "Sabado",
-    "Domingo",
   ];
+
+  const date = new Date();
+  let weekDay = date.getDay();
 
   const [entrada, setEntrada] = useState("");
   const [cidade, setCidade] = useState(""); //FORMA DE UTILIZAR VARIÁVEI PARA RENDEREIZAR A TELA
@@ -40,6 +43,10 @@ function App() {
       .catch(() => {
         alert("Não foi possível encontrar a cidade");
       });
+
+    // diasSemana.map((dia) => (
+
+    // ))
   }
 
   function gerenciaBusca(vasco) {
@@ -53,20 +60,24 @@ function App() {
       <h2>{cidade}</h2>
       <button onClick={buscarCidade}>Buscar</button>
       <div id="cardContainer">
-        {diasSemana.map((dia) => (
+        {cidade ? (
           <TempCard
-            key={dia}
             city={cidade}
             description={descricao}
             tempMax={tempMax}
             tempMin={tempMin}
             temp={currentTemp}
-            day={dia}
+            day={diasSemana[weekDay]}
           />
-        ))}
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
 }
 
 export default App;
+
+//ternario
+// afirmação?se verdadeiro:se falso;

@@ -6,7 +6,7 @@ export default function TempCard(props) {
       <div className="card">
         <p className="city">{props.city}</p>
         <p className="weather">{props.description}</p>
-        <svg
+        {/* <svg
           className="weather"
           version="1.1"
           id="Layer_1"
@@ -16,8 +16,8 @@ export default function TempCard(props) {
           height="50px"
           viewBox="0 0 100 100"
           xmlSpace="preserve"
-        ></svg>
-        <p className="minHeading">Agora</p>
+        ></svg> */}
+        <p className="minHeading">{props.day}</p>
         <p className="temp">{props.temp}</p>
         <div className="minmaxContainer">
           <div className="min">
